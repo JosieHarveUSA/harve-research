@@ -596,9 +596,12 @@ function subPub(){
     q10:SV['pq10'],q11:gr('pq11'),
     q12:gta('pq12'),q13:gta('pq13')});
   // Save to Google Sheets
+  const surveyData = {type:'survey',q1:gr('pq1'),q2:gr('pq2'),q3:gcb('pq3').join(', '),q4:gr('pq4'),q5:gr('pq5'),q6:gr('pq6'),q7:gta('pq7'),q8:gr('pq8'),q9:gr('pq9'),q10:SV['pq10'],q11:gr('pq11'),q12:gta('pq12'),q13:gta('pq13')};
   fetch(SCRIPT_URL, {
     method:'POST',
-    body:JSON.stringify({type:'survey',q1:gr('pq1'),q2:gr('pq2'),q3:gcb('pq3').join(', '),q4:gr('pq4'),q5:gr('pq5'),q6:gr('pq6'),q7:gta('pq7'),q8:gr('pq8'),q9:gr('pq9'),q10:SV['pq10'],q11:gr('pq11'),q12:gta('pq12'),q13:gta('pq13')})
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify(surveyData)
   }).catch(()=>{});
   upd();
   document.getElementById('pub-ok').style.display='block';
@@ -617,9 +620,12 @@ function subInt(){
     q7:gta('iq7'),q8:gta('iq8'),
     q10:SV['iass'],ins:gta('i-ins'),cand:gr('icand')});
   // Save to Google Sheets
+  const intData = {type:'interview',name:document.getElementById('i-name').value,seg:document.getElementById('i-seg').value,where:document.getElementById('i-src').value,q1:gta('iq1'),q2:gta('iq2'),q3:gta('iq3'),bq1:gta('iq-b1'),bq2:gta('iq-b2'),bq3:gta('iq-b3'),q4:gr('iq4'),q5:gta('iq5'),q6:gta('iq6'),q7:gta('iq7'),q8:gta('iq8'),assessment:SV['iass'],insight:gta('i-ins'),candidate:gr('icand')};
   fetch(SCRIPT_URL, {
     method:'POST',
-    body:JSON.stringify({type:'interview',name:document.getElementById('i-name').value,seg:document.getElementById('i-seg').value,where:document.getElementById('i-src').value,q1:gta('iq1'),q2:gta('iq2'),q3:gta('iq3'),bq1:gta('iq-b1'),bq2:gta('iq-b2'),bq3:gta('iq-b3'),q4:gr('iq4'),q5:gta('iq5'),q6:gta('iq6'),q7:gta('iq7'),q8:gta('iq8'),assessment:SV['iass'],insight:gta('i-ins'),candidate:gr('icand')})
+    mode:'no-cors',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify(intData)
   }).catch(()=>{});
   upd();
   document.getElementById('int-ok').style.display='block';

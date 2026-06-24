@@ -44,6 +44,226 @@ document.getElementById('pw-input') && document.getElementById('pw-input').addEv
   if (e.key === 'Enter') checkPw();
 });
 
+
+// ── BILINGUAL SUPPORT ──────────────────────────────────────────
+let currentLang = 'en';
+
+const translations = {
+  // NAV
+  'Public survey': 'Pesquisa pública',
+  'In-person interview': 'Entrevista presencial',
+  // HERO
+  'Help shape the future of tech education in Utah': 'Ajude a moldar o futuro da educação em tecnologia em Utah',
+  "We're exploring bringing a new type of in-person tech training to Utah County. Your answers take 8–10 minutes and are completely anonymous.": 'Estamos explorando trazer um novo tipo de treinamento tecnológico presencial para o Utah County. Suas respostas levam 8–10 minutos e são completamente anônimas.',
+  'Data Analytics': 'Análise de Dados',
+  'Digital Marketing': 'Marketing Digital',
+  // SECTION LABELS
+  'Section A — About you': 'Seção A — Sobre você',
+  'Section B — Learning behavior &amp; bootcamp experience': 'Seção B — Aprendizado e experiência com bootcamps',
+  'Section C — Logistics &amp; commitment': 'Seção C — Logística e compromisso',
+  'Section D — Concept reaction': 'Seção D — Reação ao conceito',
+  // Q1
+  'Which best describes your current situation?': 'Qual melhor descreve sua situação atual?',
+  'Employed in tech': 'Empregado em tech',
+  'Employed outside tech': 'Empregado fora de tech',
+  'Self-employed or business owner': 'Autônomo ou dono de negócio',
+  'Currently job searching': 'Procurando emprego',
+  'Other': 'Outro',
+  // Q2
+  'Are you currently considering a career change or major skill upgrade?': 'Você está considerando uma mudança de carreira ou atualização de habilidades?',
+  'Yes, actively': 'Sim, ativamente',
+  'Yes, thinking about it': 'Sim, pensando nisso',
+  'Not right now': 'Agora não',
+  'No': 'Não',
+  // Q3
+  'How have you learned new professional skills in the past? (Select all that apply)': 'Como você aprendeu novas habilidades profissionais no passado? (Selecione todas que se aplicam)',
+  'Online courses (Coursera, Udemy)': 'Cursos online (Coursera, Udemy)',
+  'In-person bootcamp': 'Bootcamp presencial',
+  'On-the-job': 'No trabalho',
+  'College or university': 'Faculdade ou universidade',
+  'Coaching': 'Coaching',
+  'No formal training': 'Sem treinamento formal',
+  // Q4
+  'If you needed to learn a technical skill for career growth, which format would you trust most to get real results?': 'Se precisasse aprender uma habilidade técnica para crescer profissionalmente, qual formato confiaria mais?',
+  'Fully online self-paced': 'Totalmente online autodirigido',
+  'Live online classes': 'Aulas online ao vivo',
+  'In-person classes': 'Aulas presenciais',
+  'Hybrid': 'Híbrido',
+  "Doesn't matter": 'Não importa',
+  // Q5
+  'Have you ever enrolled in or seriously considered a coding bootcamp or tech training program?': 'Você já se inscreveu ou considerou seriamente um bootcamp de programação?',
+  'Yes, completed one': 'Sim, concluí um',
+  'Yes, enrolled but did not finish': 'Sim, me inscrevi mas não terminei',
+  'Researched but did not enroll': 'Pesquisei mas não me inscrevi',
+  'No, never considered one': 'Não, nunca considerei',
+  // Q6
+  'If you have experience with a bootcamp (completed or researched), what was your biggest frustration or concern?': 'Se você tem experiência com bootcamp, qual foi sua maior frustração?',
+  'Price': 'Preço',
+  'Online-only format': 'Formato apenas online',
+  'No local in-person option': 'Sem opção presencial local',
+  'Lack of instructor support': 'Falta de suporte do instrutor',
+  'Uncertain job outcomes': 'Resultados de emprego incertos',
+  'Too time-intensive': 'Muito intensivo',
+  'No issues — it was great': 'Sem problemas — foi ótimo',
+  'N/A — never looked into one': 'N/A — nunca pesquisei',
+  // Q7
+  'What would make an in-person tech training program feel clearly different and better than a typical bootcamp?': 'O que faria um programa presencial parecer claramente diferente e melhor do que um bootcamp típico?',
+  'Your answer...': 'Sua resposta...',
+  // Q8
+  'Would attending in-person classes two evenings per week (6:30–9:30 PM) be realistic for your schedule?': 'Assistir aulas presenciais duas noites por semana (18h30–21h30) seria realista para sua agenda?',
+  'Yes, easily': 'Sim, facilmente',
+  'Yes, with some adjustments': 'Sim, com alguns ajustes',
+  'Very difficult': 'Muito difícil',
+  // Q9
+  'How far would you reasonably commute for an in-person program?': 'Quão longe você se deslocaria para um programa presencial?',
+  'Less than 15 min': 'Menos de 15 min',
+  '15–30 min': '15–30 min',
+  '30–45 min': '30–45 min',
+  "I wouldn't commute — online only": 'Não me deslocaria — apenas online',
+  // Q10
+  'A 4-month in-person tech program (data analytics, digital marketing, or AI tools), twice a week evenings, with real projects and industry instructors. How interested would you be?': 'Um programa de tecnologia presencial de 4 meses (análise de dados, marketing digital ou IA), duas noites por semana, projetos reais e instrutores do setor. Quão interessado você estaria?',
+  'Not at all interested': 'Nada interessado',
+  'Very interested': 'Muito interessado',
+  // Q11
+  'What price range would feel fair for this type of program if it leads to a real career outcome?': 'Qual faixa de preço pareceria justa para este programa se levar a um resultado real de carreira?',
+  'Under $1,500': 'Menos de $1.500',
+  '$1,500–$2,500': '$1.500–$2.500',
+  '$2,500–$4,000': '$2.500–$4.000',
+  '$4,000–$6,000': '$4.000–$6.000',
+  'Over $6,000 if the outcome is guaranteed': 'Mais de $6.000 se o resultado for garantido',
+  // Q12
+  'What is the one thing that would make you trust and choose this program over others? (Short answer)': 'O que faria você confiar e escolher este programa? (Resposta curta)',
+  // Q13
+  'What is the main barrier that would stop you from enrolling today? (Short answer)': 'Qual é a principal barreira que te impediria de se matricular hoje? (Resposta curta)',
+  // BUTTONS
+  'Submit my answers': 'Enviar minhas respostas',
+  // SUCCESS
+  'Thank you!': 'Obrigado!',
+  'Your response has been recorded. We really appreciate your time and honesty.': 'Sua resposta foi registrada. Agradecemos muito seu tempo e honestidade.',
+  // REQUIRED
+  'Please answer all required questions (marked with *) before submitting.': 'Por favor responda todas as perguntas obrigatórias (marcadas com *) antes de enviar.',
+  'Please select an interest level for Q10.': 'Por favor selecione um nível de interesse para a Q10.',
+  // PASSWORD
+  'Admin Access Only': 'Acesso Restrito',
+  'This section is restricted. Please enter the password to continue.': 'Esta seção é restrita. Digite a senha para continuar.',
+  'Enter password': 'Digite a senha',
+  'Incorrect password. Try again.': 'Senha incorreta. Tente novamente.',
+  'Enter': 'Entrar',
+  'Cancel': 'Cancelar',
+  // INTERVIEW PAGE
+  'One-on-One Interview Guide': 'Roteiro de Entrevista Individual',
+  'Fill this out during the conversation. One submission = one interview.': 'Preencha durante a conversa. Uma submissão = uma entrevista.',
+  'Session info (private)': 'Informações da sessão (privado)',
+  'Respondent name or code': 'Nome ou código do entrevistado',
+  'Segment': 'Segmento',
+  'Select...': 'Selecionar...',
+  'Career changer': 'Migrante de carreira',
+  'Tech upskilling professional': 'Profissional em atualização tecnológica',
+  'Small business owner / entrepreneur': 'Dono de pequena empresa / empreendedor',
+  'LDS community contact': 'Contato da comunidade SUD',
+  'Where did you meet them?': 'Onde se conheceram?',
+  'LDS ward / stake event': 'Ward / evento de Estaca SUD',
+  'Valley Crossroads Chamber': 'Valley Crossroads Chamber',
+  'Kiln / coworking space': 'Kiln / coworking',
+  'Silicon Slopes event': 'Evento Silicon Slopes',
+  'Personal referral': 'Indicação pessoal',
+  'Date': 'Data',
+  'Save interview session': 'Salvar sessão de entrevista',
+  'Session saved!': 'Sessão salva!',
+  'Go to the Dashboard to see all results. For the next interview, scroll back up and fill in a new session.': 'Vá ao Dashboard para ver todos os resultados. Para a próxima entrevista, role para cima e preencha novamente.',
+  // DASHBOARD
+  'Research Dashboard': 'Dashboard de Pesquisa',
+  'Updates with each response': 'Atualiza a cada resposta',
+  'Total responses': 'Total de respostas',
+  'In-person interviews': 'Entrevistas presenciais',
+  'Avg interest (Q10)': 'Interesse médio (Q10)',
+  'Schedule fit (yes)': 'Agenda compatível',
+  'Load sample data to preview dashboard': 'Carregar dados de exemplo',
+  'No responses yet.': 'Nenhuma resposta ainda.',
+  'Sample data loaded': 'Dados carregados',
+};
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'pt' : 'en';
+  const btn = document.getElementById('lang-btn');
+  btn.textContent = currentLang === 'en' ? '🌐 PT' : '🌐 EN';
+  applyLang();
+}
+
+function applyLang() {
+  const isPt = currentLang === 'pt';
+  // Translate all elements with data-en and data-pt
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const key = el.getAttribute('data-en');
+    if (isPt && translations[key]) {
+      el.textContent = translations[key];
+    } else {
+      el.textContent = key;
+    }
+  });
+  // Translate text nodes in specific elements
+  translateElements(isPt);
+}
+
+function translateElements(isPt) {
+  // Walk all text-containing elements and translate
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+  
+  const nodes = [];
+  let node;
+  while (node = walker.nextNode()) {
+    const text = node.textContent.trim();
+    if (text.length > 1) nodes.push(node);
+  }
+  
+  nodes.forEach(node => {
+    const text = node.textContent.trim();
+    if (isPt) {
+      if (translations[text]) {
+        node.textContent = node.textContent.replace(text, translations[text]);
+      }
+    } else {
+      // Reverse lookup for English
+      for (const [en, pt] of Object.entries(translations)) {
+        if (node.textContent.trim() === pt) {
+          node.textContent = node.textContent.replace(pt, en);
+          break;
+        }
+      }
+    }
+  });
+
+  // Handle placeholders
+  document.querySelectorAll('textarea, input[type=text]').forEach(el => {
+    const ph = el.getAttribute('placeholder');
+    if (!ph) return;
+    if (isPt) {
+      if (translations[ph]) el.setAttribute('placeholder', translations[ph]);
+    } else {
+      for (const [en, pt] of Object.entries(translations)) {
+        if (ph === pt) { el.setAttribute('placeholder', en); break; }
+      }
+    }
+  });
+
+  // Handle select options
+  document.querySelectorAll('select option').forEach(opt => {
+    const text = opt.textContent.trim();
+    if (isPt) {
+      if (translations[text]) opt.textContent = translations[text];
+    } else {
+      for (const [en, pt] of Object.entries(translations)) {
+        if (text === pt) { opt.textContent = en; break; }
+      }
+    }
+  });
+}
+
 </script>
 <style>
 :root{
@@ -137,9 +357,10 @@ select:focus{border-color:var(--blue)}
 <nav>
   <div class="logo">HARVE<span>.</span></div>
   <div class="nav-links">
-    <button class="nb active" id="btn-pub" onclick="pg('pub',this)">Public survey</button>
-    <button class="nb" id="btn-int" onclick="reqPw('int',this)">In-person interview</button>
-    <button class="nb" id="btn-dash" onclick="reqPw('dash',this)">Dashboard <span class="badge" id="bc">0</span></button>
+    <button class="nb active" id="btn-pub" onclick="pg('pub',this)" data-en="Public survey" data-pt="Pesquisa pública">Public survey</button>
+    <button class="nb" id="btn-int" onclick="reqPw('int',this)" data-en="In-person interview" data-pt="Entrevista presencial">In-person interview</button>
+    <button class="nb" id="btn-dash" onclick="reqPw('dash',this)" data-en="Dashboard" data-pt="Dashboard">Dashboard <span class="badge" id="bc">0</span></button>
+    <button class="nb" id="lang-btn" onclick="toggleLang()" style="border:1px solid rgba(255,110,0,.5);color:#FF6E00;font-weight:600;margin-left:6px">🌐 PT</button>
   </div>
 </nav>
 
@@ -740,5 +961,225 @@ function closePw() {
 document.getElementById('pw-input') && document.getElementById('pw-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') checkPw();
 });
+
+
+// ── BILINGUAL SUPPORT ──────────────────────────────────────────
+let currentLang = 'en';
+
+const translations = {
+  // NAV
+  'Public survey': 'Pesquisa pública',
+  'In-person interview': 'Entrevista presencial',
+  // HERO
+  'Help shape the future of tech education in Utah': 'Ajude a moldar o futuro da educação em tecnologia em Utah',
+  "We're exploring bringing a new type of in-person tech training to Utah County. Your answers take 8–10 minutes and are completely anonymous.": 'Estamos explorando trazer um novo tipo de treinamento tecnológico presencial para o Utah County. Suas respostas levam 8–10 minutos e são completamente anônimas.',
+  'Data Analytics': 'Análise de Dados',
+  'Digital Marketing': 'Marketing Digital',
+  // SECTION LABELS
+  'Section A — About you': 'Seção A — Sobre você',
+  'Section B — Learning behavior &amp; bootcamp experience': 'Seção B — Aprendizado e experiência com bootcamps',
+  'Section C — Logistics &amp; commitment': 'Seção C — Logística e compromisso',
+  'Section D — Concept reaction': 'Seção D — Reação ao conceito',
+  // Q1
+  'Which best describes your current situation?': 'Qual melhor descreve sua situação atual?',
+  'Employed in tech': 'Empregado em tech',
+  'Employed outside tech': 'Empregado fora de tech',
+  'Self-employed or business owner': 'Autônomo ou dono de negócio',
+  'Currently job searching': 'Procurando emprego',
+  'Other': 'Outro',
+  // Q2
+  'Are you currently considering a career change or major skill upgrade?': 'Você está considerando uma mudança de carreira ou atualização de habilidades?',
+  'Yes, actively': 'Sim, ativamente',
+  'Yes, thinking about it': 'Sim, pensando nisso',
+  'Not right now': 'Agora não',
+  'No': 'Não',
+  // Q3
+  'How have you learned new professional skills in the past? (Select all that apply)': 'Como você aprendeu novas habilidades profissionais no passado? (Selecione todas que se aplicam)',
+  'Online courses (Coursera, Udemy)': 'Cursos online (Coursera, Udemy)',
+  'In-person bootcamp': 'Bootcamp presencial',
+  'On-the-job': 'No trabalho',
+  'College or university': 'Faculdade ou universidade',
+  'Coaching': 'Coaching',
+  'No formal training': 'Sem treinamento formal',
+  // Q4
+  'If you needed to learn a technical skill for career growth, which format would you trust most to get real results?': 'Se precisasse aprender uma habilidade técnica para crescer profissionalmente, qual formato confiaria mais?',
+  'Fully online self-paced': 'Totalmente online autodirigido',
+  'Live online classes': 'Aulas online ao vivo',
+  'In-person classes': 'Aulas presenciais',
+  'Hybrid': 'Híbrido',
+  "Doesn't matter": 'Não importa',
+  // Q5
+  'Have you ever enrolled in or seriously considered a coding bootcamp or tech training program?': 'Você já se inscreveu ou considerou seriamente um bootcamp de programação?',
+  'Yes, completed one': 'Sim, concluí um',
+  'Yes, enrolled but did not finish': 'Sim, me inscrevi mas não terminei',
+  'Researched but did not enroll': 'Pesquisei mas não me inscrevi',
+  'No, never considered one': 'Não, nunca considerei',
+  // Q6
+  'If you have experience with a bootcamp (completed or researched), what was your biggest frustration or concern?': 'Se você tem experiência com bootcamp, qual foi sua maior frustração?',
+  'Price': 'Preço',
+  'Online-only format': 'Formato apenas online',
+  'No local in-person option': 'Sem opção presencial local',
+  'Lack of instructor support': 'Falta de suporte do instrutor',
+  'Uncertain job outcomes': 'Resultados de emprego incertos',
+  'Too time-intensive': 'Muito intensivo',
+  'No issues — it was great': 'Sem problemas — foi ótimo',
+  'N/A — never looked into one': 'N/A — nunca pesquisei',
+  // Q7
+  'What would make an in-person tech training program feel clearly different and better than a typical bootcamp?': 'O que faria um programa presencial parecer claramente diferente e melhor do que um bootcamp típico?',
+  'Your answer...': 'Sua resposta...',
+  // Q8
+  'Would attending in-person classes two evenings per week (6:30–9:30 PM) be realistic for your schedule?': 'Assistir aulas presenciais duas noites por semana (18h30–21h30) seria realista para sua agenda?',
+  'Yes, easily': 'Sim, facilmente',
+  'Yes, with some adjustments': 'Sim, com alguns ajustes',
+  'Very difficult': 'Muito difícil',
+  // Q9
+  'How far would you reasonably commute for an in-person program?': 'Quão longe você se deslocaria para um programa presencial?',
+  'Less than 15 min': 'Menos de 15 min',
+  '15–30 min': '15–30 min',
+  '30–45 min': '30–45 min',
+  "I wouldn't commute — online only": 'Não me deslocaria — apenas online',
+  // Q10
+  'A 4-month in-person tech program (data analytics, digital marketing, or AI tools), twice a week evenings, with real projects and industry instructors. How interested would you be?': 'Um programa de tecnologia presencial de 4 meses (análise de dados, marketing digital ou IA), duas noites por semana, projetos reais e instrutores do setor. Quão interessado você estaria?',
+  'Not at all interested': 'Nada interessado',
+  'Very interested': 'Muito interessado',
+  // Q11
+  'What price range would feel fair for this type of program if it leads to a real career outcome?': 'Qual faixa de preço pareceria justa para este programa se levar a um resultado real de carreira?',
+  'Under $1,500': 'Menos de $1.500',
+  '$1,500–$2,500': '$1.500–$2.500',
+  '$2,500–$4,000': '$2.500–$4.000',
+  '$4,000–$6,000': '$4.000–$6.000',
+  'Over $6,000 if the outcome is guaranteed': 'Mais de $6.000 se o resultado for garantido',
+  // Q12
+  'What is the one thing that would make you trust and choose this program over others? (Short answer)': 'O que faria você confiar e escolher este programa? (Resposta curta)',
+  // Q13
+  'What is the main barrier that would stop you from enrolling today? (Short answer)': 'Qual é a principal barreira que te impediria de se matricular hoje? (Resposta curta)',
+  // BUTTONS
+  'Submit my answers': 'Enviar minhas respostas',
+  // SUCCESS
+  'Thank you!': 'Obrigado!',
+  'Your response has been recorded. We really appreciate your time and honesty.': 'Sua resposta foi registrada. Agradecemos muito seu tempo e honestidade.',
+  // REQUIRED
+  'Please answer all required questions (marked with *) before submitting.': 'Por favor responda todas as perguntas obrigatórias (marcadas com *) antes de enviar.',
+  'Please select an interest level for Q10.': 'Por favor selecione um nível de interesse para a Q10.',
+  // PASSWORD
+  'Admin Access Only': 'Acesso Restrito',
+  'This section is restricted. Please enter the password to continue.': 'Esta seção é restrita. Digite a senha para continuar.',
+  'Enter password': 'Digite a senha',
+  'Incorrect password. Try again.': 'Senha incorreta. Tente novamente.',
+  'Enter': 'Entrar',
+  'Cancel': 'Cancelar',
+  // INTERVIEW PAGE
+  'One-on-One Interview Guide': 'Roteiro de Entrevista Individual',
+  'Fill this out during the conversation. One submission = one interview.': 'Preencha durante a conversa. Uma submissão = uma entrevista.',
+  'Session info (private)': 'Informações da sessão (privado)',
+  'Respondent name or code': 'Nome ou código do entrevistado',
+  'Segment': 'Segmento',
+  'Select...': 'Selecionar...',
+  'Career changer': 'Migrante de carreira',
+  'Tech upskilling professional': 'Profissional em atualização tecnológica',
+  'Small business owner / entrepreneur': 'Dono de pequena empresa / empreendedor',
+  'LDS community contact': 'Contato da comunidade SUD',
+  'Where did you meet them?': 'Onde se conheceram?',
+  'LDS ward / stake event': 'Ward / evento de Estaca SUD',
+  'Valley Crossroads Chamber': 'Valley Crossroads Chamber',
+  'Kiln / coworking space': 'Kiln / coworking',
+  'Silicon Slopes event': 'Evento Silicon Slopes',
+  'Personal referral': 'Indicação pessoal',
+  'Date': 'Data',
+  'Save interview session': 'Salvar sessão de entrevista',
+  'Session saved!': 'Sessão salva!',
+  'Go to the Dashboard to see all results. For the next interview, scroll back up and fill in a new session.': 'Vá ao Dashboard para ver todos os resultados. Para a próxima entrevista, role para cima e preencha novamente.',
+  // DASHBOARD
+  'Research Dashboard': 'Dashboard de Pesquisa',
+  'Updates with each response': 'Atualiza a cada resposta',
+  'Total responses': 'Total de respostas',
+  'In-person interviews': 'Entrevistas presenciais',
+  'Avg interest (Q10)': 'Interesse médio (Q10)',
+  'Schedule fit (yes)': 'Agenda compatível',
+  'Load sample data to preview dashboard': 'Carregar dados de exemplo',
+  'No responses yet.': 'Nenhuma resposta ainda.',
+  'Sample data loaded': 'Dados carregados',
+};
+
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'pt' : 'en';
+  const btn = document.getElementById('lang-btn');
+  btn.textContent = currentLang === 'en' ? '🌐 PT' : '🌐 EN';
+  applyLang();
+}
+
+function applyLang() {
+  const isPt = currentLang === 'pt';
+  // Translate all elements with data-en and data-pt
+  document.querySelectorAll('[data-en]').forEach(el => {
+    const key = el.getAttribute('data-en');
+    if (isPt && translations[key]) {
+      el.textContent = translations[key];
+    } else {
+      el.textContent = key;
+    }
+  });
+  // Translate text nodes in specific elements
+  translateElements(isPt);
+}
+
+function translateElements(isPt) {
+  // Walk all text-containing elements and translate
+  const walker = document.createTreeWalker(
+    document.body,
+    NodeFilter.SHOW_TEXT,
+    null,
+    false
+  );
+  
+  const nodes = [];
+  let node;
+  while (node = walker.nextNode()) {
+    const text = node.textContent.trim();
+    if (text.length > 1) nodes.push(node);
+  }
+  
+  nodes.forEach(node => {
+    const text = node.textContent.trim();
+    if (isPt) {
+      if (translations[text]) {
+        node.textContent = node.textContent.replace(text, translations[text]);
+      }
+    } else {
+      // Reverse lookup for English
+      for (const [en, pt] of Object.entries(translations)) {
+        if (node.textContent.trim() === pt) {
+          node.textContent = node.textContent.replace(pt, en);
+          break;
+        }
+      }
+    }
+  });
+
+  // Handle placeholders
+  document.querySelectorAll('textarea, input[type=text]').forEach(el => {
+    const ph = el.getAttribute('placeholder');
+    if (!ph) return;
+    if (isPt) {
+      if (translations[ph]) el.setAttribute('placeholder', translations[ph]);
+    } else {
+      for (const [en, pt] of Object.entries(translations)) {
+        if (ph === pt) { el.setAttribute('placeholder', en); break; }
+      }
+    }
+  });
+
+  // Handle select options
+  document.querySelectorAll('select option').forEach(opt => {
+    const text = opt.textContent.trim();
+    if (isPt) {
+      if (translations[text]) opt.textContent = translations[text];
+    } else {
+      for (const [en, pt] of Object.entries(translations)) {
+        if (text === pt) { opt.textContent = en; break; }
+      }
+    }
+  });
+}
 
 </script>
